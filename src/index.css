@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* ── Identité visuelle : tout part de ces variables ───────── */
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #141a3d;
+  --color-muted: #4a5075;
+  --color-cobalt: #2036a8;
+  --color-cobalt-dark: #172a87;
+  --color-flag: #c8243b;
+  --color-sun: #ffc83d;
+  --color-mist: #eef2fb;
+  --color-wa: #0e7a41;
+  --color-wa-dark: #0a6435;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* évite que l'en-tête masque les titres d'ancres */
+  }
+  body {
+    background: var(--color-mist);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-cobalt);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  /* Sur fond sombre, le focus passe en jaune pour rester visible */
+  .on-dark :focus-visible {
+    outline-color: var(--color-sun);
+  }
+}
+
+/* ── Animations : une seule entrée orchestrée (le hero) + la fenêtre produit ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.75rem); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: translateY(0.75rem) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+dialog[open] { animation: pop 0.22s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, dialog[open] { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
